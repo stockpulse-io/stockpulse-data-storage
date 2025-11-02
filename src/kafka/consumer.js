@@ -12,7 +12,7 @@ async function runConsumer() {
   await consumer.connect();
   console.log("Kafka Consumer connected...");
 
-  await consumer.subscribe({ topic: process.env.TOPIC, fromBeginning: false });
+  await consumer.subscribe({ topic: process.env.KAFKA_TOPIC, fromBeginning: false });
 
   await consumer.run({
     eachMessage: async ({ message }) => {
