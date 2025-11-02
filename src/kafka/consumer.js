@@ -1,11 +1,10 @@
-require("dotenv").config();
 const { Kafka } = require("kafkajs");
 const { upsertCandle } = require("../services/candleService");
 
 async function runConsumer() {
   const kafka = new Kafka({
     clientId: "stockpulse-io-consumer",
-    brokers: [process.env.BROKER_NAME],
+    brokers: [process.env.BROKER_NAME], // localhost:9092
   });
 
   const consumer = kafka.consumer({ groupId: "stockpulse-stream-group" });
@@ -18,16 +17,15 @@ async function runConsumer() {
   await consumer.run({
     eachMessage: async ({ message }) => {
       const tick = JSON.parse(message.value.toString());
-
       console.log(`Tick: ${tick.symbol} | Price: ${tick.price}`);
 
       try {
         await upsertCandle(tick);
       } catch (err) {
-        handleError(err, "KAFKA_CONSUMER_PARSE");
+        handleError(err, "PG_INSERT_ERROR");
       }
     },
   });
 }
 
-runConsumer();
+module.exports = runConsumer;
