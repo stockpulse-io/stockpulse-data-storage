@@ -17,6 +17,7 @@ Kakfa Setup(If Kafka is not already running, start it using Docker):
     npm init -y
     npm install kafkajs dotenv pg
     npm install pg
+    npm install redis
 
 2. PostgreSQL Setup
 
