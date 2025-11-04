@@ -67,8 +67,13 @@ Kakfa Setup(If Kafka is not already running, start it using Docker):
 
         CREATE INDEX idx_candles_symbol_timeframe_time
         ON candles (symbol, timeframe, open_time DESC);
+        
+3. Environment Setup
 
-3. Running the System
+    Copy .env.example → create your own .env file
+    Edit .env and add your Postgres username and password
+
+4. Running the System
 
     Run ingestion service
     Run storage service:-
