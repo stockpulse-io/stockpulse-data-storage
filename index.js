@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { handleError } = require("./src/helpers/errorHandler");
+const handleError = require("./src/helpers/errorHandler");
 const runConsumer = require("./src/kafka/consumer");
 
 (async () => {
