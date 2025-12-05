@@ -1,12 +1,12 @@
 require("dotenv").config();
 const { Kafka } = require("kafkajs");
 const { upsertCandle } = require("../services/candleService")
-const { handleError } = require("../helpers/errorHandler");
+const handleError = require("../helpers/errorHandler");
 
 async function runConsumer() {
   const kafka = new Kafka({
     clientId: "stockpulse-io-consumer-for-pg",
-    brokers: [process.env.BROKER_NAME],
+    brokers: [process.env.KAFKA_BROKER_NAME],
   });
 
   const consumer = kafka.consumer({ groupId: "stockpulse-stream-pg-group" });
