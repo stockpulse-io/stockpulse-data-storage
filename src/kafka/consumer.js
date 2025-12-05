@@ -2,20 +2,17 @@ require("dotenv").config();
 const { Kafka } = require("kafkajs");
 const { upsertCandle } = require("../services/candleService")
 const { handleError } = require("../helpers/errorHandler");
-const { connectRedis, saveLiveTick } = require("../services/redisService");
 
 async function runConsumer() {
   const kafka = new Kafka({
-    clientId: "stockpulse-io-consumer",
+    clientId: "stockpulse-io-consumer-for-pg",
     brokers: [process.env.BROKER_NAME],
   });
 
-  const consumer = kafka.consumer({ groupId: "stockpulse-stream-group" });
+  const consumer = kafka.consumer({ groupId: "stockpulse-stream-pg-group" });
 
   await consumer.connect();
   console.log("Kafka Consumer connected...");
-
-  await connectRedis();
 
   await consumer.subscribe({ topic: process.env.KAFKA_TOPIC, fromBeginning: false });
 
@@ -26,7 +23,6 @@ async function runConsumer() {
 
       try {
         await upsertCandle(tick);   // Store in Postgres
-        await saveLiveTick(tick);  // Store in Redis
       } catch (err) {
         handleError(err, "CONSUMER_ERROR");
       }
