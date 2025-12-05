@@ -27,7 +27,7 @@ Initialize and install required packages:
 
 ```bash
 npm init -y
-npm install kafkajs dotenv pg redis
+npm install kafkajs dotenv pg
 ```
 
 ---
@@ -140,10 +140,9 @@ node index.js
 ## 📊 Architecture Overview
 
 ```
-Kafka Producer → Kafka Broker → Consumer Service → PostgreSQL + Redis
+Kafka Producer → Kafka Broker → Consumer Service → PostgreSQL
 ```
 
 * **Kafka Producer**: Sends live tick data
 * **Consumer (this project)**: Converts ticks into OHLCV candles
 * **PostgreSQL**: Stores historical data
-* **Redis**: Stores live tick cache
